@@ -1,0 +1,2512 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Shoe Place - Premium Footwear Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+      * {
+        font-family: "Inter", sans-serif;
+        scroll-behavior: smooth;
+        box-sizing: border-box;
+      }
+
+      /* Mobile-first base styles */
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .hero-gradient {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+
+      .card-hover {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-hover::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transition: left 0.6s ease;
+        z-index: 1;
+      }
+
+      .card-hover:hover::before {
+        left: 100%;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.15);
+      }
+
+      @media (min-width: 480px) {
+        .card-hover:hover {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.18);
+        }
+      }
+
+      @media (min-width: 768px) {
+        .card-hover:hover {
+          transform: translateY(-8px) scale(1.03);
+          box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      /* Enhanced button hover effects */
+      .btn-hover {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .btn-hover::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .btn-hover:hover::before {
+        left: 100%;
+      }
+
+      .btn-hover:hover {
+        transform: translateY(-2px) scale(1.05);
+      }
+
+      .btn-hover:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      .product-image {
+        transition: transform 0.4s ease;
+      }
+
+      .product-card:hover .product-image {
+        transform: scale(1.05);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+      }
+
+      /* Floating buttons - Mobile first with enhanced positioning */
+      .floating-buttons {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        pointer-events: none;
+      }
+
+      .floating-buttons button,
+      .floating-buttons a {
+        pointer-events: auto;
+      }
+
+      .floating-buttons button,
+      .floating-buttons a > div {
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .floating-buttons button:hover,
+      .floating-buttons a:hover > div {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      }
+
+      @media (min-width: 480px) {
+        .floating-buttons {
+          bottom: 1.25rem;
+          right: 1.25rem;
+          gap: 0.875rem;
+        }
+
+        .floating-buttons button,
+        .floating-buttons a > div {
+          width: 54px;
+          height: 54px;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .floating-buttons {
+          bottom: 2rem;
+          right: 2rem;
+          gap: 1rem;
+        }
+
+        .floating-buttons button,
+        .floating-buttons a > div {
+          width: 60px;
+          height: 60px;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .floating-buttons {
+          bottom: 2.5rem;
+          right: 2.5rem;
+        }
+      }
+
+      .category-filter.active {
+        background: #3b82f6;
+        color: white;
+      }
+
+      /* Scroll Animation Base Classes */
+      .animate-on-scroll {
+        opacity: 0;
+        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      .animate-on-scroll.animate-in {
+        opacity: 1;
+      }
+
+      /* Animation Variants */
+      .fade-up {
+        transform: translateY(60px);
+      }
+
+      .fade-up.animate-in {
+        transform: translateY(0);
+      }
+
+      .fade-down {
+        transform: translateY(-60px);
+      }
+
+      .fade-down.animate-in {
+        transform: translateY(0);
+      }
+
+      .fade-left {
+        transform: translateX(-60px);
+      }
+
+      .fade-left.animate-in {
+        transform: translateX(0);
+      }
+
+      .fade-right {
+        transform: translateX(60px);
+      }
+
+      .fade-right.animate-in {
+        transform: translateX(0);
+      }
+
+      .fade-in {
+        opacity: 0;
+      }
+
+      .fade-in.animate-in {
+        opacity: 1;
+      }
+
+      .scale-in {
+        transform: scale(0.8);
+      }
+
+      .scale-in.animate-in {
+        transform: scale(1);
+      }
+
+      /* Staggered animations for product cards */
+      .animate-on-scroll.delay-1 {
+        transition-delay: 0.1s;
+      }
+
+      .animate-on-scroll.delay-2 {
+        transition-delay: 0.2s;
+      }
+
+      .animate-on-scroll.delay-3 {
+        transition-delay: 0.3s;
+      }
+
+      .animate-on-scroll.delay-4 {
+        transition-delay: 0.4s;
+      }
+
+      .animate-on-scroll.delay-5 {
+        transition-delay: 0.5s;
+      }
+
+      .animate-on-scroll.delay-6 {
+        transition-delay: 0.6s;
+      }
+
+      /* Responsive animation adjustments */
+      @media (max-width: 768px) {
+        .fade-up,
+        .fade-down {
+          transform: translateY(30px);
+        }
+
+        .fade-left,
+        .fade-right {
+          transform: translateX(30px);
+        }
+
+        .animate-on-scroll {
+          transition-duration: 0.6s;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .animate-on-scroll {
+          transition: none;
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* Modal - Mobile first */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 99999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        padding: 1rem;
+      }
+
+      .modal-content {
+        position: relative;
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+        max-width: 900px;
+        background: white;
+        border-radius: 16px;
+        animation: modalSlideIn 0.3s ease;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+        margin-top: 1rem;
+      }
+
+      @media (min-width: 768px) {
+        .modal {
+          padding: 2rem;
+        }
+
+        .modal-content {
+          margin-top: 2rem;
+          max-height: calc(100vh - 4rem);
+        }
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .size-option {
+        transition: all 0.2s ease;
+        min-width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .size-option:hover {
+        background: #3b82f6;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .navbar-blur {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+      }
+
+      /* Fluid responsive grid - Mobile first with enhanced flexibility */
+      .products-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        width: 100%;
+      }
+
+      @media (min-width: 360px) {
+        .products-grid {
+          gap: 1.5rem;
+        }
+      }
+
+      @media (min-width: 480px) {
+        .products-grid {
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 1.75rem;
+        }
+      }
+
+      @media (min-width: 640px) {
+        .products-grid {
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .products-grid {
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 2.25rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .products-grid {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2.5rem;
+        }
+      }
+
+      @media (min-width: 1280px) {
+        .products-grid {
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 3rem;
+        }
+      }
+
+      /* Hero responsive typography - Mobile first with fluid scaling */
+      .hero-title {
+        font-size: clamp(2rem, 8vw, 4.5rem);
+        line-height: 1.1;
+        font-weight: 800;
+        margin-bottom: clamp(1rem, 3vw, 2rem);
+      }
+
+      .hero-subtitle {
+        font-size: clamp(0.875rem, 4vw, 1.5rem);
+        line-height: 1.5;
+        margin-bottom: clamp(1.5rem, 4vw, 3rem);
+      }
+
+      .hero-buttons {
+        gap: clamp(0.75rem, 2vw, 1.5rem);
+        margin-bottom: clamp(2rem, 6vw, 4rem);
+      }
+
+      .hero-image-container {
+        margin-top: clamp(1rem, 4vw, 3rem);
+        padding: clamp(1.5rem, 5vw, 4rem);
+      }
+
+      .hero-image-emoji {
+        font-size: clamp(3rem, 12vw, 8rem);
+        margin-bottom: clamp(0.5rem, 2vw, 1.5rem);
+      }
+
+      .hero-image-text {
+        font-size: clamp(0.875rem, 3vw, 1.25rem);
+      }
+
+      /* Fluid responsive spacing system */
+      .section-padding {
+        padding: clamp(2rem, 8vw, 6rem) clamp(1rem, 4vw, 3rem);
+      }
+
+      .section-padding-sm {
+        padding: clamp(1.5rem, 6vw, 4rem) clamp(1rem, 4vw, 3rem);
+      }
+
+      /* Responsive containers with fluid padding */
+      .container-responsive {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 clamp(1rem, 4vw, 3rem);
+      }
+
+      /* Responsive margins */
+      .mb-responsive {
+        margin-bottom: clamp(1rem, 4vw, 3rem);
+      }
+
+      .mb-responsive-lg {
+        margin-bottom: clamp(2rem, 6vw, 4rem);
+      }
+
+      .mt-responsive {
+        margin-top: clamp(1rem, 4vw, 3rem);
+      }
+
+      /* Fluid responsive typography system */
+      .text-responsive-xl {
+        font-size: clamp(1.75rem, 5vw, 3rem);
+        line-height: 1.2;
+        font-weight: 700;
+      }
+
+      .text-responsive-lg {
+        font-size: clamp(1.125rem, 3vw, 1.75rem);
+        line-height: 1.4;
+      }
+
+      .text-responsive-md {
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        line-height: 1.5;
+      }
+
+      .text-responsive-sm {
+        font-size: clamp(0.875rem, 2vw, 1rem);
+        line-height: 1.6;
+      }
+
+      /* Responsive button sizing */
+      .btn-responsive {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.875rem;
+      }
+
+      @media (min-width: 768px) {
+        .btn-responsive {
+          padding: 1rem 2rem;
+          font-size: 1rem;
+        }
+      }
+
+      /* Responsive card padding */
+      .card-padding {
+        padding: 1rem;
+      }
+
+      @media (min-width: 768px) {
+        .card-padding {
+          padding: 1.5rem;
+        }
+      }
+
+      /* Enhanced product image scaling */
+      .product-image-height {
+        width: 100%;
+        height: clamp(180px, 25vw, 300px);
+        object-fit: cover;
+        object-position: center;
+        background: #f8fafc;
+        display: block;
+      }
+
+      /* Responsive filter system */
+      .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: clamp(0.5rem, 2vw, 1rem);
+        margin-bottom: clamp(2rem, 6vw, 4rem);
+      }
+
+      .filter-button {
+        padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+        font-size: clamp(0.75rem, 2vw, 1rem);
+        white-space: nowrap;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Enhanced product card styling */
+      .product-card {
+        border-radius: clamp(1rem, 3vw, 1.5rem);
+        overflow: hidden;
+        height: fit-content;
+      }
+
+      .card-padding {
+        padding: clamp(1rem, 3vw, 2rem);
+      }
+
+      .card-padding-sm {
+        padding: clamp(0.75rem, 2vw, 1.5rem);
+      }
+
+      /* Logo Styling */
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-image {
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+        min-height: 55px;
+        max-width: 90px;
+        max-height: 90px;
+      }
+
+      @media (min-width: 768px) {
+        .logo-image {
+          width: 65px;
+          height: 65px;
+          min-width: 65px;
+          min-height: 65px;
+          max-width: 110px;
+          max-height: 110px;
+        }
+      }
+
+      /* Responsive navigation */
+      .nav-height {
+        height: 60px;
+      }
+
+      @media (min-width: 768px) {
+        .nav-height {
+          height: 70px;
+        }
+      }
+
+      /* Responsive hero image */
+      .hero-image-container {
+        margin-top: 2rem;
+        padding: 2rem;
+      }
+
+      @media (min-width: 768px) {
+        .hero-image-container {
+          margin-top: 3rem;
+          padding: 3rem;
+        }
+      }
+
+      /* Image Gallery Slider Styles */
+      .gallery-slider {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      @media (min-width: 768px) {
+        .gallery-slider {
+          height: 400px;
+        }
+      }
+
+      .slider-container {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        height: 100%;
+      }
+
+      .slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .slide-placeholder {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .slide-placeholder i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+      }
+
+      .slide-placeholder h3 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      .slide-placeholder p {
+        font-size: 1rem;
+        opacity: 0.9;
+      }
+
+      .slider-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .slider-nav:hover {
+        background: white;
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .slider-nav.prev {
+        left: 15px;
+      }
+
+      .slider-nav.next {
+        right: 15px;
+      }
+
+      .slider-nav i {
+        font-size: 1.2rem;
+        color: #374151;
+      }
+
+      .slider-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 10;
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .dot.active {
+        background: white;
+        transform: scale(1.2);
+      }
+
+      .slider-timer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #06b6d4, #8b5cf6);
+        transition: width 0.1s linear;
+        z-index: 10;
+      }
+
+      /* Responsive about grid */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      @media (min-width: 768px) {
+        .about-grid {
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2.5rem;
+        }
+      }
+
+      /* Responsive contact grid */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .contact-grid {
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 2rem;
+        }
+      }
+
+      /* Responsive footer grid */
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      @media (min-width: 768px) {
+        .footer-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .footer-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-white">
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+      <button
+        onclick="scrollToTop()"
+        class="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 hover:scale-110"
+      >
+        <i class="fas fa-arrow-up text-xl"></i>
+      </button>
+      <a href="https://wa.me/+2348080615732" target="_blank">
+        <div
+          class="bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
+        >
+          <i class="fab fa-whatsapp text-xl"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar-blur fixed w-full top-0 z-50 border-b border-gray-100">
+      <div class="container-responsive">
+        <div class="flex justify-between items-center nav-height">
+          <div class="flex items-center">
+            <div class="logo-container flex items-center">
+              <img
+                id="logoImage"
+                class="logo-image rounded-lg object-contain"
+                alt="The Shoe Place Logo"
+              />
+              <span
+                class="logo-text text-xl md:text-2xl font-bold text-gray-900 ml-3"
+                >The Shoe Place</span
+              >
+            </div>
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4 lg:space-x-8">
+              <a
+                href="#home"
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+                >Home</a
+              >
+              <a
+                href="#products"
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+                >Products</a
+              >
+              <a
+                href="#about"
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+                >About</a
+              >
+              <a
+                href="#contact"
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+                >Contact</a
+              >
+            </div>
+          </div>
+          <div class="hidden sm:flex items-center space-x-3 md:space-x-4">
+            <a
+              href="https://www.instagram.com/tochi.rex?igsh=MXQwendzNmI0Zm52cw=="
+              target="_blank"
+              class="text-gray-600 hover:text-pink-500 transition-colors"
+            >
+              <i class="fab fa-instagram text-lg md:text-xl"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/share/175y5BEKSz/"
+              target="_blank"
+              class="text-gray-600 hover:text-blue-500 transition-colors"
+            >
+              <i class="fab fa-facebook text-lg md:text-xl"></i>
+            </a>
+          </div>
+          <!-- Mobile menu button -->
+          <div class="md:hidden">
+            <button
+              id="mobile-menu-btn"
+              class="text-gray-700 hover:text-blue-600 p-2"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Mobile menu -->
+      <div
+        id="mobile-menu"
+        class="md:hidden hidden bg-white border-t border-gray-100"
+      >
+        <div class="container-responsive">
+          <div class="py-3 space-y-1">
+            <a
+              href="#home"
+              class="block px-3 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
+              >Home</a
+            >
+            <a
+              href="#products"
+              class="block px-3 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
+              >Products</a
+            >
+            <a
+              href="#about"
+              class="block px-3 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
+              >About</a
+            >
+            <a
+              href="#contact"
+              class="block px-3 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
+              >Contact</a
+            >
+            <div
+              class="flex items-center justify-center space-x-6 pt-4 border-t border-gray-100 mt-4"
+            >
+              <a
+                href="https://www.instagram.com/tochi.rex?igsh=MXQwendzNmI0Zm52cw=="
+                target="_blank"
+                class="text-gray-600 hover:text-pink-500 transition-colors"
+              >
+                <i class="fab fa-instagram text-2xl"></i>
+              </a>
+              <a
+                href="https://www.facebook.com/share/175y5BEKSz/"
+                target="_blank"
+                class="text-gray-600 hover:text-blue-500 transition-colors"
+              >
+                <i class="fab fa-facebook text-2xl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="hero-gradient min-h-screen flex items-center justify-center pt-16 md:pt-20"
+    >
+      <div class="container-responsive text-center">
+        <div class="max-w-5xl mx-auto">
+          <h1
+            class="hero-title font-bold text-gray-900 leading-tight animate-on-scroll fade-up"
+          >
+            Step Into <span class="text-blue-600">Comfort & Style</span>
+          </h1>
+          <p
+            class="hero-subtitle text-gray-600 max-w-4xl mx-auto leading-relaxed animate-on-scroll fade-up delay-1"
+          >
+            Premium footwear collection designed for comfort, style, and
+            everyday performance
+          </p>
+          <div
+            class="hero-buttons flex flex-col sm:flex-row justify-center items-center max-w-md sm:max-w-none mx-auto animate-on-scroll fade-up delay-2"
+          >
+            <a
+              href="#products"
+              class="btn-primary btn-responsive btn-hover text-white rounded-full font-semibold w-full sm:w-auto"
+            >
+              Shop Now
+            </a>
+            <a
+              href="#about"
+              class="border-2 border-gray-300 text-gray-700 btn-responsive btn-hover rounded-full font-semibold hover:border-blue-600 hover:text-blue-600 transition-all w-full sm:w-auto"
+            >
+              Learn More
+            </a>
+          </div>
+          <!-- Image Gallery Slider -->
+          <div class="hero-image-container animate-on-scroll scale-in delay-3">
+            <div class="gallery-slider mx-auto max-w-full lg:max-w-4xl">
+              <div id="slider-container" class="slider-container">
+                <!-- Slides will be generated by JavaScript -->
+              </div>
+
+              <!-- Navigation arrows -->
+              <button class="slider-nav prev" onclick="previousSlide()">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="slider-nav next" onclick="nextSlide()">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+
+              <!-- Dots indicator -->
+              <div id="slider-dots" class="slider-dots">
+                <!-- Dots will be generated by JavaScript -->
+              </div>
+
+              <!-- Timer bar -->
+              <div id="slider-timer" class="slider-timer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="section-padding bg-gray-50">
+      <div class="container-responsive">
+        <div class="text-center mb-responsive-lg">
+          <h2
+            class="text-responsive-xl text-gray-900 mb-responsive animate-on-scroll fade-down"
+          >
+            Our Collection
+          </h2>
+          <p
+            class="text-responsive-lg text-gray-600 mb-responsive animate-on-scroll fade-up delay-1"
+          >
+            Discover footwear that matches your lifestyle and elevates your
+            style
+          </p>
+
+          <!-- Filter Buttons -->
+          <div class="filter-container animate-on-scroll fade-in delay-2">
+            <button
+              onclick="filterProducts('all')"
+              class="category-filter filter-button btn-hover active rounded-full border-2 border-blue-600 text-blue-600 font-semibold transition-all"
+            >
+              All
+            </button>
+            <button
+              onclick="filterProducts('sneakers')"
+              class="category-filter filter-button btn-hover rounded-full border-2 border-blue-600 text-blue-600 font-semibold transition-all"
+            >
+              Sneakers
+            </button>
+            <button
+              onclick="filterProducts('sandals')"
+              class="category-filter filter-button btn-hover rounded-full border-2 border-blue-600 text-blue-600 font-semibold transition-all"
+            >
+              Sandals
+            </button>
+            <button
+              onclick="filterProducts('runners')"
+              class="category-filter filter-button btn-hover rounded-full border-2 border-blue-600 text-blue-600 font-semibold transition-all"
+            >
+              Runners
+            </button>
+            <button
+              onclick="filterProducts('school')"
+              class="category-filter filter-button btn-hover rounded-full border-2 border-blue-600 text-blue-600 font-semibold transition-all"
+            >
+              School
+            </button>
+            <button
+              onclick="filterProducts('boots')"
+              class="category-filter filter-button btn-hover rounded-full border-2 border-blue-600 text-blue-600 font-semibold transition-all"
+            >
+              Boots
+            </button>
+            <button
+              onclick="filterProducts('canvas')"
+              class="category-filter filter-button btn-hover rounded-full border-2 border-blue-600 text-blue-600 font-semibold transition-all"
+            >
+              Canvas
+            </button>
+            <button
+              onclick="filterProducts('slippers')"
+              class="category-filter filter-button btn-hover rounded-full border-2 border-blue-600 text-blue-600 font-semibold transition-all"
+            >
+              Slippers
+            </button>
+            <button
+              onclick="filterProducts('crocs')"
+              class="category-filter filter-button btn-hover rounded-full border-2 border-blue-600 text-blue-600 font-semibold transition-all"
+            >
+              Crocs
+            </button>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="products-grid">
+          <!-- Product cards will be generated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-padding bg-white">
+      <div class="container-responsive">
+        <div class="max-w-6xl mx-auto text-center">
+          <h2
+            class="text-responsive-xl text-gray-900 mb-responsive animate-on-scroll fade-left"
+          >
+            Why Choose Us
+          </h2>
+          <div
+            class="text-6xl lg:text-8xl mb-responsive animate-on-scroll scale-in delay-1"
+          >
+            
+          </div>
+          <p
+            class="text-responsive-lg text-gray-600 mb-responsive-lg leading-relaxed max-w-5xl mx-auto animate-on-scroll fade-right delay-2"
+          >
+           At The Shoe Place, we believe footwear should bring together comfort, style, and lasting quality. That’s why our collection is thoughtfully curated with premium materials and modern designs—made to fit every step, every age, and every lifestyle.
+          </p>
+          <div class="about-grid">
+            <div
+              class="card-hover bg-blue-50 rounded-2xl card-padding text-center animate-on-scroll fade-up delay-3"
+            >
+              <div class="text-3xl md:text-4xl mb-4"></div>
+              <h3 class="text-lg md:text-xl font-semibold mb-2 text-gray-900">
+                Premium Quality
+              </h3>
+              <p class="text-gray-600 text-sm md:text-base">
+                Made with the finest materials for lasting durability and
+                performance
+              </p>
+            </div>
+            <div
+              class="card-hover bg-green-50 rounded-2xl card-padding text-center animate-on-scroll fade-up delay-4"
+            >
+              <div class="text-3xl md:text-4xl mb-4"></div>
+              <h3 class="text-lg md:text-xl font-semibold mb-2 text-gray-900">
+                All-Day Comfort
+              </h3>
+              <p class="text-gray-600 text-sm md:text-base">
+                Engineered for comfort with advanced cushioning and support
+              </p>
+            </div>
+            <div
+              class="card-hover bg-purple-50 rounded-2xl card-padding text-center animate-on-scroll fade-up delay-5"
+            >
+              <div class="text-3xl md:text-4xl mb-4"></div>
+              <h3 class="text-lg md:text-xl font-semibold mb-2 text-gray-900">
+                Stylish Designs
+              </h3>
+              <p class="text-gray-600 text-sm md:text-base">
+                Fashion-forward styles for every occasion and lifestyle
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding bg-gray-50">
+      <div class="container-responsive text-center">
+        <h2
+          class="text-responsive-xl text-gray-900 mb-responsive animate-on-scroll fade-down"
+        >
+          Get in Touch
+        </h2>
+        <p
+          class="text-responsive-lg text-gray-600 mb-responsive-lg animate-on-scroll fade-up delay-1"
+        >
+          Ready to find your perfect pair? Contact us today!
+        </p>
+
+        <div class="contact-grid max-w-4xl mx-auto">
+          <a
+            href="https://wa.me/+2348080615732"
+            target="_blank"
+            class="card-hover bg-green-500 text-white card-padding rounded-2xl shadow-lg animate-on-scroll fade-left delay-2"
+          >
+            <i class="fab fa-whatsapp text-3xl md:text-4xl mb-4"></i>
+            <h3 class="text-lg md:text-xl font-semibold">WhatsApp</h3>
+            <p class="mt-2 text-sm md:text-base">Chat with us directly</p>
+          </a>
+          <a
+            href="https://www.instagram.com/tochi.rex?igsh=MXQwendzNmI0Zm52cw=="
+            target="_blank"
+            class="card-hover bg-gradient-to-r from-purple-500 to-pink-500 text-white card-padding rounded-2xl shadow-lg animate-on-scroll scale-in delay-3"
+          >
+            <i class="fab fa-instagram text-3xl md:text-4xl mb-4"></i>
+            <h3 class="text-lg md:text-xl font-semibold">Instagram</h3>
+            <p class="mt-2 text-sm md:text-base">Follow our latest styles</p>
+          </a>
+          <a
+            href="https://www.facebook.com/share/175y5BEKSz/"
+            target="_blank"
+            class="card-hover bg-blue-600 text-white card-padding rounded-2xl shadow-lg animate-on-scroll fade-right delay-4"
+          >
+            <i class="fab fa-facebook text-3xl md:text-4xl mb-4"></i>
+            <h3 class="text-lg md:text-xl font-semibold">Facebook</h3>
+            <p class="mt-2 text-sm md:text-base">Join our community</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white section-padding">
+      <div class="container-responsive">
+        <div class="footer-grid">
+          <div class="mb-6 md:mb-0">
+            <div class="text-xl md:text-2xl font-bold mb-4">
+             </i>The Shoe Place
+            </div>
+            <p class="text-gray-400 text-sm md:text-base">
+              Premium footwear for every lifestyle. Comfort, style, and
+              durability in every step.
+            </p>
+          </div>
+          <div class="mb-6 md:mb-0">
+            <h3 class="text-base md:text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#home"
+                  class="text-gray-400 hover:text-white transition-colors text-sm md:text-base"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#products"
+                  class="text-gray-400 hover:text-white transition-colors text-sm md:text-base"
+                  >Products</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  class="text-gray-400 hover:text-white transition-colors text-sm md:text-base"
+                  >About</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  class="text-gray-400 hover:text-white transition-colors text-sm md:text-base"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="mb-6 md:mb-0">
+            <h3 class="text-base md:text-lg font-semibold mb-4">Categories</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#products"
+                  onclick="filterProducts('sneakers')"
+                  class="text-gray-400 hover:text-white transition-colors cursor-pointer text-sm md:text-base"
+                  >Sneakers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#products"
+                  onclick="filterProducts('sandals')"
+                  class="text-gray-400 hover:text-white transition-colors cursor-pointer text-sm md:text-base"
+                  >Sandals</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#products"
+                  onclick="filterProducts('runners')"
+                  class="text-gray-400 hover:text-white transition-colors cursor-pointer text-sm md:text-base"
+                  >Runners</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#products"
+                  onclick="filterProducts('school')"
+                  class="text-gray-400 hover:text-white transition-colors cursor-pointer text-sm md:text-base"
+                  >School Shoes</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#products"
+                  onclick="filterProducts('boots')"
+                  class="text-gray-400 hover:text-white transition-colors cursor-pointer text-sm md:text-base"
+                  >Boots</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#products"
+                  onclick="filterProducts('canvas')"
+                  class="text-gray-400 hover:text-white transition-colors cursor-pointer text-sm md:text-base"
+                  >Canvas</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-base md:text-lg font-semibold mb-4">Follow Us</h3>
+            <div class="flex space-x-4">
+              <a
+                href="https://www.instagram.com/tochi.rex?igsh=MXQwendzNmI0Zm52cw=="
+                target="_blank"
+                class="text-gray-400 hover:text-pink-400 transition-colors"
+              >
+                <i class="fab fa-instagram text-xl md:text-2xl"></i>
+              </a>
+              <a
+                href="https://www.facebook.com/share/175y5BEKSz/"
+                target="_blank"
+                class="text-gray-400 hover:text-blue-400 transition-colors"
+              >
+                <i class="fab fa-facebook text-xl md:text-2xl"></i>
+              </a>
+              <a
+                href="https://wa.me/+2348080615732"
+                target="_blank"
+                class="text-gray-400 hover:text-green-400 transition-colors"
+              >
+                <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-800 mt-6 md:mt-8 pt-6 md:pt-8 text-center"
+        >
+          <p class="text-gray-400 text-sm md:text-base">
+            &copy; 2025 Rexwebs. All rights reserved. Step into comfort, step into style.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal">
+      <div class="modal-content">
+        <div class="flex flex-col lg:flex-row">
+          <!-- Product Image -->
+          <div class="lg:w-1/2 p-4 md:p-6 lg:p-8">
+            <img
+              id="modalImage"
+              src=""
+              alt=""
+              class="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg"
+            />
+          </div>
+
+          <!-- Product Details -->
+          <div class="lg:w-1/2 p-4 md:p-6 lg:p-8">
+            <button
+              onclick="closeModal()"
+              class="float-right text-gray-500 hover:text-gray-700 text-2xl md:text-3xl p-2"
+            >
+              &times;
+            </button>
+            <h2
+              id="modalTitle"
+              class="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 md:mb-4 pr-8"
+            ></h2>
+            <p
+              id="modalPrice"
+              class="text-lg md:text-xl lg:text-2xl font-semibold text-blue-600 mb-3 md:mb-4"
+            ></p>
+            <p
+              id="modalDescription"
+              class="text-gray-600 mb-4 md:mb-6 leading-relaxed text-sm md:text-base"
+            ></p>
+
+            <!-- Sizes -->
+            <div class="mb-4 md:mb-6">
+              <h3 class="text-base md:text-lg font-semibold mb-3 text-gray-900">
+                Available Sizes
+              </h3>
+              <div id="modalSizes" class="flex flex-wrap gap-2">
+                <!-- Sizes will be populated by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Colors -->
+            <div class="mb-6 md:mb-8">
+              <h3 class="text-base md:text-lg font-semibold mb-3 text-gray-900">
+                Available Colors
+              </h3>
+              <div id="modalColors" class="flex gap-2 flex-wrap">
+                <!-- Colors will be populated by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Purchase Button -->
+            <button
+              onclick="contactWhatsApp()"
+              class="w-full bg-green-500 text-white py-3 md:py-4 rounded-lg font-semibold text-base md:text-lg hover:bg-green-600 transition-colors flex items-center justify-center"
+            >
+              <i class="fab fa-whatsapp mr-2"></i>
+              Contact to Purchase
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Logo Configuration - Change this to customize your logo
+      const LOGO_CONFIG = {
+        // Put your logo file in the images folder and change the filename here
+        url: "./images/logo.png",
+
+        // Alternative options:
+        // url: "./images/your-logo-name.jpg",
+        // url: "./images/company-logo.svg",
+        // emoji: "👟", // Uncomment this and comment out url to use emoji instead
+
+        // Logo dimensions (optional - will auto-resize if not specified)
+        width: "50px",
+        height: "50px",
+      };
+
+      // Gallery Configuration - Add your images here
+      const GALLERY_CONFIG = {
+        // Add your image paths here (put images in the images folder)
+        images: [
+          "./images/shoes.jpg",
+          "./images/white.jpg",
+          "./images/adidas design graphic.jpg",
+          "./images/AIR JORDAN 1.jpg",
+          "./images/yellow.jpg",
+        ],
+
+        // Auto-slide timer in milliseconds (5000 = 5 seconds)
+        autoSlideTimer: 5000,
+
+        // Placeholder content when images don't load
+        placeholders: [
+          {
+            icon: "fas fa-image",
+            title: "Image 1",
+            text: "Add your first image here",
+          },
+          {
+            icon: "fas fa-image",
+            title: "Image 2",
+            text: "Add your second image here",
+          },
+          {
+            icon: "fas fa-image",
+            title: "Image 3",
+            text: "Add your third image here",
+          },
+          {
+            icon: "fas fa-image",
+            title: "Image 4",
+            text: "Add your fourth image here",
+          },
+          {
+            icon: "fas fa-image",
+            title: "Image 5",
+            text: "Add your fifth image here",
+          },
+        ],
+      };
+
+      // Product data
+      const products = [
+        // Sneakers
+        {
+          id: 1,
+          name: "Air Max Classic",
+          category: "sneakers",
+          price: "₦25,000",
+          image: "./images/amx.jpg",
+          description:
+            "Comfortable and stylish sneakers with superior cushioning. Perfect for everyday wear and active lifestyles.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Royal Blue", "Crimson Red", "Pure White", "Jet Black"],
+        },
+        {
+          id: 2,
+          name: "Urban Street Sneakers",
+          category: "sneakers",
+          price: "₦28,000",
+          image: "./images/uss.jpg",
+          description:
+            "Trendy street-style sneakers with modern design. Built for comfort and style in the city.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Storm Gray", "Cloud White", "Midnight Black", "Fire Red"],
+        },
+        {
+          id: 3,
+          name: "High-Top Classics",
+          category: "sneakers",
+          price: "₦22,000",
+          image: "./images/htc.jpg",
+          description:
+            "Timeless high-top sneakers with ankle support. Durable canvas construction with rubber sole.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Cherry Red", "Ocean Blue", "Coal Black", "Snow White"],
+        },
+        {
+          id: 4,
+          name: "Velcro Sport Sneakers",
+          category: "sneakers",
+          price: "₦18,000",
+          image: "./images/vss.jpg",
+          description:
+            "Easy-on velcro sneakers for convenient wear. No laces needed, just strap and go!",
+          sizes: ["6", "7", "8", "9", "10", "11"],
+          colors: [
+            "Electric Blue",
+            "Bubblegum Pink",
+            "Lime Green",
+            "Violet Purple",
+          ],
+        },
+        {
+          id: 5,
+          name: "Basketball High-Tops",
+          category: "sneakers",
+          price: "₦32,000",
+          image: "./images/bs.jpg",
+          description:
+            "Professional basketball sneakers with ankle support and superior grip for court performance.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: [
+            "Championship Gold",
+            "Team Red",
+            "Court Black",
+            "Victory White",
+          ],
+        },
+        {
+          id: 6,
+          name: "Retro Classic Sneakers",
+          category: "sneakers",
+          price: "₦26,000",
+          image: "./images/rcs.jpg",
+          description:
+            "Vintage-inspired sneakers with modern comfort technology. Perfect blend of style and function.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Vintage Brown",
+            "Classic Navy",
+            "Retro Green",
+            "Heritage Cream",
+          ],
+        },
+
+        // Sandals
+        {
+          id: 7,
+          name: "Summer Breeze Sandals",
+          category: "sandals",
+          price: "₦14,000",
+          image: "./images/sbs.jpg",
+          description:
+            "Lightweight and breathable sandals perfect for summer adventures. Adjustable straps for a secure fit.",
+          sizes: ["6", "7", "8", "9", "10", "11"],
+          colors: ["Sunset Pink", "Sky Blue", "Mint Green", "Lavender Purple"],
+        },
+        {
+          id: 8,
+          name: "Beach Walker Sandals",
+          category: "sandals",
+          price: "₦16,000",
+          image: "./images/bws.jpg",
+          description:
+            "Water-resistant sandals perfect for beach days and pool activities. Non-slip sole for safety.",
+          sizes: ["6", "7", "8", "9", "10", "11"],
+          colors: [
+            "Tropical Turquoise",
+            "Coral Reef",
+            "Sunshine Yellow",
+            "Ocean Blue",
+          ],
+        },
+        {
+          id: 9,
+          name: "Adventure Sandals",
+          category: "sandals",
+          price: "₦18,000",
+          image: "./images/adv.jpg",
+          description:
+            "Rugged outdoor sandals with toe protection. Perfect for hiking and outdoor adventures.",
+          sizes: ["7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Earth Brown",
+            "Forest Green",
+            "Stone Gray",
+            "Sunset Orange",
+          ],
+        },
+        {
+          id: 10,
+          name: "Water Sport Sandals",
+          category: "sandals",
+          price: "₦15,000",
+          image: "./images/wss.jpg",
+          description:
+            "Quick-dry water sandals with secure straps. Perfect for water parks and beach activities.",
+          sizes: ["6", "7", "8", "9", "10", "11"],
+          colors: [
+            "Wave Blue",
+            "Flamingo Pink",
+            "Seaweed Green",
+            "Mango Orange",
+          ],
+        },
+        {
+          id: 11,
+          name: "Comfort Slide Sandals",
+          category: "sandals",
+          price: "₦12,000",
+          image: "./images/css.jpg",
+          description:
+            "Easy slip-on sandals with cushioned footbed. Perfect for casual wear and poolside relaxation.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Cool Gray", "Soft Pink", "Fresh Blue", "Sunny Yellow"],
+        },
+        {
+          id: 12,
+          name: "Sport Strap Sandals",
+          category: "sandals",
+          price: "₦17,000",
+          image: "./images/sss.jpg",
+          description:
+            "Athletic sandals with multiple adjustment straps. Designed for active kids who love outdoor play.",
+          sizes: ["7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Athletic Red",
+            "Sport Blue",
+            "Active Green",
+            "Power Purple",
+          ],
+        },
+
+        // Runners
+        {
+          id: 13,
+          name: "Speed Runner Pro",
+          category: "runners",
+          price: "₦30,000",
+          image: "./images/srp.jpg",
+          description:
+            "High-performance running shoes designed for young athletes. Lightweight with excellent grip and support.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: [
+            "Midnight Black",
+            "Pure White",
+            "Electric Blue",
+            "Flame Orange",
+          ],
+        },
+        {
+          id: 14,
+          name: "Marathon Junior",
+          category: "runners",
+          price: "₦32,000",
+          image: "./images/mjr.jpg",
+          description:
+            "Professional-grade running shoes for serious young runners. Advanced cushioning and breathable mesh.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: ["Neon Lime", "Carbon Black", "Arctic White", "Royal Blue"],
+        },
+        {
+          id: 15,
+          name: "Cross Training Runners",
+          category: "runners",
+          price: "₦28,000",
+          image: "./images/ctr.jpg",
+          description:
+            "Versatile cross-training shoes for multiple sports. Excellent lateral support and cushioning.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: [
+            "Stealth Black",
+            "Ghost White",
+            "Titanium Gray",
+            "Cobalt Blue",
+          ],
+        },
+        {
+          id: 16,
+          name: "Track Star Runners",
+          category: "runners",
+          price: "₦34,000",
+          image: "./images/tsr.jpg",
+          description:
+            "Competition-ready track shoes with spike-ready sole. Lightweight design for maximum speed.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: ["Victory Red", "Champion Blue", "Gold Rush", "Shadow Black"],
+        },
+        {
+          id: 17,
+          name: "Trail Adventure Runners",
+          category: "runners",
+          price: "₦29,000",
+          image: "./images/tar.jpg",
+          description:
+            "Rugged trail running shoes with superior traction. Built for off-road adventures and tough terrain.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: ["Mountain Brown", "Trail Green", "Rock Gray", "Sunset Red"],
+        },
+        {
+          id: 18,
+          name: "Lightweight Sprint Runners",
+          category: "runners",
+          price: "₦26,000",
+          image: "./images/lsr.jpg",
+          description:
+            "Ultra-lightweight running shoes for speed training. Minimal design with maximum performance.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: [
+            "Lightning Yellow",
+            "Speed Silver",
+            "Flash Red",
+            "Bolt Blue",
+          ],
+        },
+
+        // School Shoes
+        {
+          id: 19,
+          name: "Classic School Shoes",
+          category: "school",
+          price: "₦22,000",
+          image: "./images/classic.jpg",
+          description:
+            "Smart and durable school shoes with polished finish. Perfect for uniforms and formal occasions.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Classic Black", "Rich Brown", "Navy Blue"],
+        },
+        {
+          id: 20,
+          name: "Formal Oxford Kids",
+          category: "school",
+          price: "₦24,000",
+          image: "./images/fok.jpg",
+          description:
+            "Premium oxford-style shoes for special occasions. Genuine leather with comfortable padding.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Polished Black", "Mahogany Brown"],
+        },
+        {
+          id: 21,
+          name: "Mary Jane School",
+          category: "school",
+          price: "₦20,000",
+          image: "./images/mjs.jpg",
+          description:
+            "Classic Mary Jane style with adjustable strap. Comfortable for all-day school wear.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["School Black", "Uniform Brown", "Navy Blue"],
+        },
+        {
+          id: 22,
+          name: "Dress Loafers",
+          category: "school",
+          price: "₦26,000",
+          image: "./images/dlf.jpg",
+          description:
+            "Sophisticated loafers for formal events. Premium materials with comfortable fit.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Formal Black", "Executive Brown", "Deep Burgundy"],
+        },
+        {
+          id: 23,
+          name: "School Uniform Shoes",
+          category: "school",
+          price: "₦18,000",
+          image: "./images/sus.jpg",
+          description:
+            "Durable everyday school shoes designed for active students. Easy to clean and maintain.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Matte Black", "Dark Brown", "Charcoal Gray"],
+        },
+        {
+          id: 24,
+          name: "Patent Leather School Shoes",
+          category: "school",
+          price: "₦28,000",
+          image: "./images/plss.jpg",
+          description:
+            "Shiny patent leather shoes for special school events. Easy to wipe clean and always looks polished.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Glossy Black", "Patent Brown"],
+        },
+
+        // Boots
+        {
+          id: 25,
+          name: "Adventure Hiking Boots",
+          category: "boots",
+          price: "₦35,000",
+          image: "./images/ahb.jpg",
+          description:
+            "Waterproof hiking boots with ankle support. Perfect for outdoor adventures and rough terrain.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: [
+            "Mountain Brown",
+            "Forest Green",
+            "Stone Gray",
+            "Adventure Tan",
+          ],
+        },
+        {
+          id: 26,
+          name: "Winter Snow Boots",
+          category: "boots",
+          price: "₦32,000",
+          image: "./images/wsb.jpg",
+          description:
+            "Insulated winter boots with waterproof exterior. Keeps feet warm and dry in cold weather.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Arctic Black", "Snow White", "Frost Blue", "Winter Gray"],
+        },
+        {
+          id: 27,
+          name: "Rain Boots",
+          category: "boots",
+          price: "₦15,000",
+          image: "./images/rb.jpg",
+          description:
+            "Waterproof rain boots for puddle jumping. Fun colors and easy to clean after muddy adventures.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Bright Yellow", "Fire Red", "Ocean Blue", "Forest Green"],
+        },
+        {
+          id: 28,
+          name: "Combat Style Boots",
+          category: "boots",
+          price: "₦30,000",
+          image: "./images/csb.jpg",
+          description:
+            "Trendy combat-style boots with lace-up design. Durable construction with fashionable appeal.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: ["Military Black", "Army Green", "Desert Tan", "Urban Gray"],
+        },
+        {
+          id: 29,
+          name: "Chelsea Ankle Boots",
+          category: "boots",
+          price: "₦28,000",
+          image: "./images/cab.jpg",
+          description:
+            "Stylish ankle boots with elastic side panels. Easy to slip on and perfect for casual wear.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Classic Black",
+            "Chocolate Brown",
+            "Camel Tan",
+            "Midnight Blue",
+          ],
+        },
+        {
+          id: 30,
+          name: "Work Style Boots",
+          category: "boots",
+          price: "₦33,000",
+          image: "./images/work.jpg",
+          description:
+            "Sturdy work-style boots with reinforced toe. Perfect for kids who love to build and explore.",
+          sizes: ["7", "8", "9", "10", "11", "12", "13"],
+          colors: [
+            "Work Brown",
+            "Safety Yellow",
+            "Industrial Black",
+            "Construction Orange",
+          ],
+        },
+
+        // Canvas Shoes
+        {
+          id: 31,
+          name: "Classic Canvas Sneakers",
+          category: "canvas",
+          price: "₦16,000",
+          image: "./images/ccs.jpg",
+          description:
+            "Timeless canvas sneakers with rubber sole. Breathable and comfortable for everyday wear.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Canvas White",
+            "Denim Blue",
+            "Charcoal Gray",
+            "Vintage Red",
+          ],
+        },
+        {
+          id: 32,
+          name: "High-Top Canvas Shoes",
+          category: "canvas",
+          price: "₦18,000",
+          image: "./images/high.jpg",
+          description:
+            "Classic high-top canvas shoes with ankle support. Perfect for casual and street style looks.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Pure White", "Deep Black", "Navy Blue", "Crimson Red"],
+        },
+        {
+          id: 33,
+          name: "Slip-On Canvas Shoes",
+          category: "canvas",
+          price: "₦14,000",
+          image: "./images/soc.jpg",
+          description:
+            "Easy slip-on canvas shoes without laces. Perfect for quick wear and casual outings.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Light Gray", "Soft Pink", "Mint Green", "Sunshine Yellow"],
+        },
+        {
+          id: 34,
+          name: "Printed Canvas Sneakers",
+          category: "canvas",
+          price: "₦19,000",
+          image: "./images/pcs.jpg",
+          description:
+            "Fun printed canvas shoes with colorful designs. Express personality with unique patterns.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Rainbow Stripes",
+            "Star Pattern",
+            "Floral Print",
+            "Geometric Design",
+          ],
+        },
+        {
+          id: 35,
+          name: "Platform Canvas Shoes",
+          category: "canvas",
+          price: "₦21,000",
+          image: "./images/platform.jpg",
+          description:
+            "Trendy platform canvas shoes with extra height. Stylish and comfortable with thick sole.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Platform White",
+            "Elevated Black",
+            "High Pink",
+            "Tall Blue",
+          ],
+        },
+        {
+          id: 36,
+          name: "Vintage Canvas Sneakers",
+          category: "canvas",
+          price: "₦17,000",
+          image: "./images/vcs.jpg",
+          description:
+            "Retro-style canvas sneakers with vintage appeal. Classic design with modern comfort.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Vintage Cream",
+            "Retro Brown",
+            "Classic Green",
+            "Old School Blue",
+          ],
+        },
+
+        // Slippers
+        {
+          id: 37,
+          name: "Cozy Home Slippers",
+          category: "slippers",
+          price: "₦8,000",
+          image: "./images/chs.jpg",
+          description:
+            "Soft and comfortable home slippers with plush lining. Perfect for indoor relaxation.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Cozy Pink", "Warm Gray", "Soft Blue", "Cream White"],
+        },
+        {
+          id: 38,
+          name: "Fuzzy Animal Slippers",
+          category: "slippers",
+          price: "₦10,000",
+          image: "./images/fas.jpg",
+          description:
+            "Adorable animal-themed slippers with fuzzy texture. Fun designs that kids absolutely love.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Teddy Bear Brown",
+            "Bunny White",
+            "Puppy Golden",
+            "Kitty Gray",
+          ],
+        },
+        {
+          id: 39,
+          name: "Memory Foam Slippers",
+          category: "slippers",
+          price: "₦12,000",
+          image: "./images/mfs.jpg",
+          description:
+            "Premium slippers with memory foam insole. Ultimate comfort for tired little feet.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Cloud White", "Comfort Gray", "Relax Blue", "Dream Pink"],
+        },
+        {
+          id: 40,
+          name: "Outdoor Slippers",
+          category: "slippers",
+          price: "₦11,000",
+          image: "./images/os.jpg",
+          description:
+            "Durable slippers with rubber sole for outdoor use. Perfect for quick trips outside.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Outdoor Brown", "Garden Green", "Patio Gray", "Yard Blue"],
+        },
+        {
+          id: 41,
+          name: "Spa Slippers",
+          category: "slippers",
+          price: "₦9,000",
+          image: "./images/ss.jpg",
+          description:
+            "Luxurious spa-style slippers with terry cloth lining. Perfect for bathroom and bedroom use.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Spa White", "Hotel Gray", "Resort Blue", "Luxury Pink"],
+        },
+        {
+          id: 42,
+          name: "Character Slippers",
+          category: "slippers",
+          price: "₦13,000",
+          image: "./images/cs.jpg",
+          description:
+            "Fun character-themed slippers featuring popular cartoon designs. Kids' favorite characters on their feet.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Hero Red", "Princess Pink", "Monster Green", "Space Blue"],
+        },
+
+        // Crocs
+        {
+          id: 43,
+          name: "Classic Crocs",
+          category: "crocs",
+          price: "₦15,000",
+          image: "./images/classic-crocs.jpg",
+          description:
+            "Original Crocs design with ventilation holes. Lightweight, comfortable, and easy to clean.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Bright Blue", "Hot Pink", "Lime Green", "Sunny Yellow"],
+        },
+        {
+          id: 44,
+          name: "Fuzzy Lined Crocs",
+          category: "crocs",
+          price: "₦18,000",
+          image: "./images/fuzzy-crocs.jpg",
+          description:
+            "Warm Crocs with fuzzy lining for cooler weather. Cozy comfort with classic Crocs convenience.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Fuzzy Pink", "Warm Brown", "Cozy Gray", "Soft Purple"],
+        },
+        {
+          id: 45,
+          name: "Light-Up Crocs",
+          category: "crocs",
+          price: "₦22,000",
+          image: "./images/light-crocs.jpg",
+          description:
+            "Fun Crocs with LED lights that flash with every step. Battery-powered excitement for active kids.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Flash Red", "Glow Blue", "Spark Green", "Shine Purple"],
+        },
+        {
+          id: 46,
+          name: "Sport Crocs",
+          category: "crocs",
+          price: "₦17,000",
+          image: "./images/sport-crocs.jpg",
+          description:
+            "Athletic-style Crocs with secure heel strap. Perfect for active play and water activities.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Sport Blue", "Active Red", "Team Green", "Champion Black"],
+        },
+        {
+          id: 47,
+          name: "Glitter Crocs",
+          category: "crocs",
+          price: "₦19,000",
+          image: "./images/glitter-crocs.jpg",
+          description:
+            "Sparkly Crocs with glitter finish. Add some glamour to everyday comfort and style.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: [
+            "Silver Sparkle",
+            "Gold Glitter",
+            "Pink Shimmer",
+            "Blue Shine",
+          ],
+        },
+        {
+          id: 48,
+          name: "Camo Crocs",
+          category: "crocs",
+          price: "₦16,000",
+          image: "./images/camo-crocs.jpg",
+          description:
+            "Camouflage pattern Crocs for adventurous kids. Blend comfort with outdoor-inspired style.",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+          colors: ["Forest Camo", "Desert Camo", "Urban Camo", "Ocean Camo"],
+        },
+      ];
+
+      let currentProduct = null;
+
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", function () {
+        renderProducts("all");
+        setupEventListeners();
+      });
+
+      function setupEventListeners() {
+        // Mobile menu toggle
+        document
+          .getElementById("mobile-menu-btn")
+          .addEventListener("click", function () {
+            const mobileMenu = document.getElementById("mobile-menu");
+            mobileMenu.classList.toggle("hidden");
+          });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+            // Close mobile menu if open
+            document.getElementById("mobile-menu").classList.add("hidden");
+          });
+        });
+
+        // Close modal when clicking outside
+        document
+          .getElementById("productModal")
+          .addEventListener("click", function (e) {
+            if (e.target === this) {
+              closeModal();
+            }
+          });
+      }
+
+      function renderProducts(category) {
+        const grid = document.getElementById("products-grid");
+        const filteredProducts =
+          category === "all"
+            ? products
+            : products.filter((p) => p.category === category);
+
+        const animationClasses = [
+          "fade-up",
+          "fade-left",
+          "fade-right",
+          "scale-in",
+        ];
+
+        grid.innerHTML = filteredProducts
+          .map((product, index) => {
+            const animationClass =
+              animationClasses[index % animationClasses.length];
+            const delayClass = `delay-${Math.min((index % 6) + 1, 6)}`;
+
+            return `
+                <div class="product-card card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 animate-on-scroll ${animationClass} ${delayClass}">
+                    <img src="${product.image}" alt="${product.name}" class="product-image-height product-image">
+                    <div class="card-padding">
+                        <h3 class="text-lg md:text-xl font-semibold text-gray-900 mb-2">${product.name}</h3>
+                        <p class="text-base md:text-lg font-bold text-blue-600 mb-3 md:mb-4">${product.price}</p>
+                        <button onclick="openModal(${product.id})" class="w-full btn-primary btn-hover text-white py-2.5 md:py-3 rounded-lg font-semibold transition-all text-sm md:text-base">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            `;
+          })
+          .join("");
+
+        // Re-observe new elements for animations
+        setTimeout(() => {
+          observeElements();
+        }, 100);
+      }
+
+      function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+
+      function filterProducts(category) {
+        // Update active filter button
+        document.querySelectorAll(".category-filter").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+
+        // Render filtered products
+        renderProducts(category);
+
+        // Scroll to products section
+        document.getElementById("products").scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+
+      function openModal(productId) {
+        currentProduct = products.find((p) => p.id === productId);
+        if (!currentProduct) return;
+
+        // Populate modal content
+        document.getElementById("modalImage").src = currentProduct.image;
+        document.getElementById("modalImage").alt = currentProduct.name;
+        document.getElementById("modalTitle").textContent = currentProduct.name;
+        document.getElementById("modalPrice").textContent =
+          currentProduct.price;
+        document.getElementById("modalDescription").textContent =
+          currentProduct.description;
+
+        // Populate sizes
+        const sizesContainer = document.getElementById("modalSizes");
+        sizesContainer.innerHTML = currentProduct.sizes
+          .map(
+            (size) =>
+              `<button class="size-option px-4 py-2 border-2 border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all">${size}</button>`
+          )
+          .join("");
+
+        // Populate colors
+        const colorsContainer = document.getElementById("modalColors");
+        colorsContainer.innerHTML = currentProduct.colors
+          .map(
+            (color) =>
+              `<span class="inline-block px-3 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium border border-gray-300 hover:bg-blue-100 hover:border-blue-300 transition-colors cursor-pointer">${color}</span>`
+          )
+          .join("");
+
+        // Show modal
+        document.getElementById("productModal").style.display = "block";
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        document.getElementById("productModal").style.display = "none";
+        document.body.style.overflow = "auto";
+        currentProduct = null;
+      }
+
+      function contactWhatsApp() {
+        if (!currentProduct) return;
+
+        const message = `Hi! I'm interested in the ${currentProduct.name} (${currentProduct.price}). Could you please provide more information about availability and ordering?`;
+        const whatsappUrl = `https://wa.me/+2348080615732?text=${encodeURIComponent(
+          message
+        )}`;
+        window.open(whatsappUrl, "_blank");
+      }
+
+      // Enhanced Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -80px 0px",
+      };
+
+      const animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+            // Unobserve after animation to improve performance
+            animationObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // Function to observe all animation elements
+      function observeElements() {
+        document
+          .querySelectorAll(".animate-on-scroll:not(.animate-in)")
+          .forEach((el) => {
+            animationObserver.observe(el);
+          });
+      }
+
+      // Logo Management Functions
+      function initializeLogo() {
+        const logoImage = document.getElementById("logoImage");
+
+        if (LOGO_CONFIG.emoji) {
+          // If using emoji, replace img with span
+          const logoContainer = logoImage.parentElement;
+          const emojiSpan = document.createElement("span");
+          emojiSpan.textContent = LOGO_CONFIG.emoji;
+          emojiSpan.className = "text-3xl md:text-4xl";
+          logoContainer.replaceChild(emojiSpan, logoImage);
+        } else if (LOGO_CONFIG.url) {
+          // Set the logo image source
+          logoImage.src = LOGO_CONFIG.url;
+
+          // Apply custom dimensions if specified
+          if (LOGO_CONFIG.width) {
+            logoImage.style.width = LOGO_CONFIG.width;
+          }
+          if (LOGO_CONFIG.height) {
+            logoImage.style.height = LOGO_CONFIG.height;
+          }
+
+          // Add error handling for broken images
+          logoImage.onerror = function () {
+            console.warn("Logo image failed to load, falling back to text");
+            this.style.display = "none";
+          };
+        }
+      }
+
+      // Gallery Slider Functions
+      let currentSlideIndex = 0;
+      let slideInterval;
+      let timerInterval;
+      let timerProgress = 0;
+
+      function initializeGallery() {
+        const container = document.getElementById("slider-container");
+        const dotsContainer = document.getElementById("slider-dots");
+        if (!container || !dotsContainer) return;
+
+        // Create slides
+        GALLERY_CONFIG.images.forEach((imagePath, index) => {
+          const slide = document.createElement("div");
+          slide.className = "slide";
+
+          const img = document.createElement("img");
+          img.src = imagePath;
+          img.alt = `Gallery image ${index + 1}`;
+          img.onerror = function () {
+            // Show placeholder if image fails to load
+            const placeholder =
+              GALLERY_CONFIG.placeholders[index] ||
+              GALLERY_CONFIG.placeholders[0];
+            slide.innerHTML = `
+                        <div class="slide-placeholder">
+                            <i class="${placeholder.icon}"></i>
+                            <h3>${placeholder.title}</h3>
+                            <p>${placeholder.text}</p>
+                        </div>
+                    `;
+          };
+
+          slide.appendChild(img);
+          container.appendChild(slide);
+
+          // Create dot
+          const dot = document.createElement("div");
+          dot.className = "dot";
+          if (index === 0) dot.classList.add("active");
+          dot.onclick = () => goToSlide(index);
+          dotsContainer.appendChild(dot);
+        });
+
+        // Start auto-slide
+        startAutoSlide();
+      }
+
+      function updateSlidePosition() {
+        const container = document.getElementById("slider-container");
+        const dots = document.querySelectorAll(".dot");
+
+        if (container) {
+          container.style.transform = `translateX(-${
+            currentSlideIndex * 100
+          }%)`;
+        }
+
+        // Update dots
+        dots.forEach((dot, index) => {
+          dot.classList.toggle("active", index === currentSlideIndex);
+        });
+      }
+
+      function nextSlide() {
+        currentSlideIndex =
+          (currentSlideIndex + 1) % GALLERY_CONFIG.images.length;
+        updateSlidePosition();
+        resetTimer();
+      }
+
+      function previousSlide() {
+        currentSlideIndex =
+          (currentSlideIndex - 1 + GALLERY_CONFIG.images.length) %
+          GALLERY_CONFIG.images.length;
+        updateSlidePosition();
+        resetTimer();
+      }
+
+      function goToSlide(index) {
+        currentSlideIndex = index;
+        updateSlidePosition();
+        resetTimer();
+      }
+
+      function startAutoSlide() {
+        slideInterval = setInterval(nextSlide, GALLERY_CONFIG.autoSlideTimer);
+        startTimer();
+      }
+
+      function resetTimer() {
+        clearInterval(slideInterval);
+        clearInterval(timerInterval);
+        timerProgress = 0;
+        updateTimerBar();
+        startAutoSlide();
+      }
+
+      function startTimer() {
+        const timerStep = 100; // Update every 100ms
+        const totalSteps = GALLERY_CONFIG.autoSlideTimer / timerStep;
+
+        timerInterval = setInterval(() => {
+          timerProgress += 100 / totalSteps;
+          updateTimerBar();
+
+          if (timerProgress >= 100) {
+            timerProgress = 0;
+          }
+        }, timerStep);
+      }
+
+      function updateTimerBar() {
+        const timerBar = document.getElementById("slider-timer");
+        if (timerBar) {
+          timerBar.style.width = `${timerProgress}%`;
+        }
+      }
+
+      // Initialize animations on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize logo from configuration
+        initializeLogo();
+
+        // Initialize image gallery
+        initializeGallery();
+
+        // Trigger hero animations immediately
+        setTimeout(() => {
+          document
+            .querySelectorAll("#home .animate-on-scroll")
+            .forEach((el) => {
+              el.classList.add("animate-in");
+            });
+        }, 300);
+
+        // Observe other elements
+        observeElements();
+      });
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'97f91ba104af330e',t:'MTc1Nzk0OTYyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</amen>
